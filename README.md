@@ -1,8 +1,3 @@
-# Student Worker
+# Student Worker - Backend Stable
 
-This is the repository where all Student-Worker code lives. This includes the frontend, mobile (flutter), and backend.
-
-Please visit the appropraite branch to find a more detailed documentations and guides concerning this project.
-
-
-# General Overview
+This repository holds the production ready code for the student worker backend node app
