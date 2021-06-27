@@ -3,13 +3,13 @@
  * needed for the signup route
  */
 
- const Student = require("../models/student")
- const Employer = require("../models/employer")
- const bcrypt = require('bcryptjs')
- const jwt = require('jsonwebtoken')
- const secret = 'verySecureSECRET'
- const expiryInSeconds = 3600
- 
+
+const Student = require("../models/student")
+const Employer = require("../models/employer")
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const secret = 'verySecureSECRET'
+const expiryInSeconds = 3600 
  
  // TODO: serve a html file that documents this API
  exports.welcome = (req, res) => res.send('Welcome to the Student Worker API')

@@ -44,3 +44,54 @@ TEST WITH POSTMAN
 `localhost:${PORT}/studentLogin` with a POST request using just email and password
 
 
+##Filter / search
+Location: All---showcase all the job postings
+Different locations: Lagos, Abuja, Imo, other etc showcase job ltd to each location
+
+Untick job type:
+is there any other form of job type i.e if it's not onsite or remote
+i think default shd be indicated job type (e.g onsite or remote) and non-indicated job type
+
+i think there is no need for 1st and last names in employer schema
+
+no salary and job duration per week range in employer schema
+as shown on d job page design
+
+this is from job schema:
+ isRemote: {
+            type: Boolean,
+            required: true,
+            minLength: 3,
+        },
+
+i think it should be like this:
+isRemote: {
+          type: Boolean,
+          required: true,
+          minLength: 3,
+          enum: ['all-jobs', 'remote', 'on-site']
+}
+
+Also:
+is location restricted to only abuja, imo and lagos?
+ location: {
+            type: String,
+            required: true,
+            minLength: 3,
+            trim: true
+        },
+let's include others for locations not stated or we
+make the filter an editable input box that the student
+can enter d location of there choice
+
+#to get the search/filter working:
+use this format
+localhost:7005/jobs?jobType=unknown
+localhost:7005/jobs?jobType=remote
+localhost:7005/jobs?jobType=on-site
+
+change the input value of the raw data each 
+time you make a post req in postman
+
+
+
