@@ -1,6 +1,6 @@
 const Employer = require("../models/employer");
 const Student = require("../models/student");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 
 
 exports.studentLogin = (req, res) => {

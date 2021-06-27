@@ -5,7 +5,7 @@
 
 const Student = require("../models/student")
 const Employer = require("../models/employer")
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secret = 'verySecureSECRET'
 const expiryInSeconds = 3600

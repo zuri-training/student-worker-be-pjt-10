@@ -4,7 +4,7 @@
  */
 
 const mongoose = require('mongoose')
-const Employer = require('./employer')
+// const Employer = require('./employer')
 
 const JobSchema = new mongoose.Schema(
     {
@@ -29,10 +29,27 @@ const JobSchema = new mongoose.Schema(
             trim: true
         },
 
-        isRemote: {
-            type: Boolean,
+       jobType: {
+            type: String,
             required: true,
             minLength: 3,
+            enum: ["unknown", "remote", "on-site"],
+            default: "unknown"
+        },
+
+        salary: {
+            type: String,
+            required: true
+        },
+
+        hrsPerWeek: {
+            type: String,
+            required: true
+        },
+
+        duration: {
+            type: String,
+            required: true
         },
 
         filled: {
