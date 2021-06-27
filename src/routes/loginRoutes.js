@@ -8,7 +8,8 @@ const loginCtrl = require('../controllers/loginController');
 // router.post('/employerLogin', loginCtrl.employerLogin);
 
 // student login route
-router.post('/studentLogin', loginCtrl.studentLogin);
+router.post('/studentLogin', loginCtrl.studentLoginAuthentication);
+
 
 // you have to export the router variable for this to work
 module.exports = router
