@@ -58,7 +58,7 @@ exports.signupStudent = (req, res) => {
                             email: newStudent.email,
                             firstname: newStudent.firstname,
                             lastname: newStudent.lastname
-                        }, secret, { expiresIn: expiryInSeconds }, (err, token) => {
+                        }, 'secret', { expiresIn: 86400  }, (err, token) => {
                             if (err)
                                 return res.status(500).json({ err })
                             return res.status(200).json({ message: 'Student signup successful', token })
@@ -79,7 +79,7 @@ exports.signupStudent = (req, res) => {
 // - save password to DB
 // - create jwt for employer
 // - send token to employer
-exports.signupEmployer = (req, res) => { }
+// exports.signupEmployer = (req, res) => { }
 
 // this controller only works for the student database model
 // exports.studentSignup = (req, res) => {

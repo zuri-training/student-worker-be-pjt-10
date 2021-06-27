@@ -12,7 +12,7 @@ const signupRoutes = require('./routes/signupRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 
 
-const app = express()
+const app = express();
 app.use(cors());
 
 // the middleware for this express app. It helps to 
