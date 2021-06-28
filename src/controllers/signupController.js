@@ -3,13 +3,14 @@
  * needed for the signup route
  */
 
+const _ = require('lodash')
+const EmailValidator = require('email-validator')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
 const Student = require("../models/student")
 const Employer = require("../models/employer")
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const secret = 'verySecureSECRET'
-const expiryInSeconds = 3600
-
 
 // TODO: serve a html file that documents this API
 exports.welcome = (req, res) => res.send('Welcome to the Student Worker API')
@@ -23,54 +24,135 @@ exports.welcome = (req, res) => res.send('Welcome to the Student Worker API')
 // - save password to DB
 // - create jwt for student
 // - send token to student
-exports.signupStudent = (req, res) => {
-    // grab email from request body
-    // check if the email exists
-    Student.findOne({ email: req.body.email }, (err, existingStudent) => {
-        if (err)
-            return res.status(500).json({ err })
-        if (existingStudent)
-            return res.status(400).json({ message: "A student with this email already exists" })
-    })
-    // create a new student
-    Student.create({
-        email: req.body.email,
+exports.signupStudent = async (req, res) => {
+    // validates whether the incoming request is ok to process
+    // if validation fails, it returns a description of error
+    let isValid = validator(req.body);
+    if (!isValid.status)
+        return res.json({ error: isValid.error });
+
+    // Check if the email already exists
+    console.log('Checking if the email is unique')
+    let x = await Student.findOne({ email: req.body.email })
+        .catch((err) => {
+            return res.status(400).json({ err })
+        })
+    if (x !== null)
+        return res.status(400).json({ err: `This email already exists` })
+    //hash the password
+    console.log('Hashing the password')
+    let hash = bcrypt.hashSync(req.body.password, 10) // 10 is the salt rounds
+
+    // create a new studuent
+    console.log(`Creating the student, ${req.body.firstname}...`)
+    let newStudent = await Student.create({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        school: req.body.school
-    }, (err, newStudent) => {
-        if (err)
-            return res.status(500).json({ err })
-        // hash user's password
-        bcrypt.genSalt(10, (err, salt) => {
-            if (err)
-                return res.status(500).json({ err })
-            bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
-                if (err)
-                    return res.status(500).json({ err })
-                newStudent.password = hashedPassword
-                newStudent.save((err, savedStudent) => {
-                    if (err)
-                        return res.status(500).json({ err })
-                    jwt.sign(
-                        {
-                            id: newStudent._id,
-                            email: newStudent.email,
-                            firstname: newStudent.firstname,
-                            lastname: newStudent.lastname
-                        }, secret, { expiresIn: expiryInSeconds }, (err, token) => {
-                            if (err)
-                                return res.status(500).json({ err })
-                            return res.status(200).json({ message: 'Student signup successful', token })
-                        })
-                })
-            })
-        })
+        email: req.body.email,
+        school: req.body.school,
+        password: hash,
     })
+        .catch((err) => {
+            console.log(`There was an error saving the student. ${err}`)
+            return res.json({ err })
+        })
+    console.log('This is the new student:', newStudent)
 
+    // create a token with jwt
+    console.log('Creating jwt token')
+    let token = jwt.sign({ ...newStudent }, process.env.privateKey) // note the private key
 
-
+    // passed the validation. You can continue
+    return res.json({ msg: 'Validation successful', token })
 }
+
+// validates all the mandatory properties
+let validator = (reqBody) => {
+    console.log('Started request validation...')
+    // checks if the request body is empty
+    if (_.isEmpty(reqBody))
+        return {
+            error: 'your request body must not be empty',
+            status: false
+        }
+    // validates the firstname
+    if (!nameValidator(reqBody, 'firstname'))
+        return {
+            error: 'firstname must be at least 3 characters long',
+            status: false
+        }
+    // validates the lastname
+    if (!nameValidator(reqBody, 'lastname'))
+        return {
+            error: 'lastname must be at least 3 characters long',
+            status: false
+        }
+    // validates the email
+    if (!emailValidator(reqBody))
+        return {
+            error: 'the email is not formatted properly',
+            status: false
+        }
+    // validates the school name
+    if (!nameValidator(reqBody, 'school'))
+        return {
+            error: 'your school must be at least 3 characters long',
+            status: false
+        }
+    // validates the password
+    if (!passwordValidator(reqBody))
+        return {
+            error: 'this password is not valid',
+            status: false
+        }
+    // passed all validations. I'm satisfied.
+    console.log('Request validation successful :)')
+    return {
+        error: 'validation successful',
+        status: true
+    }
+}
+
+// checks if firstname exists and if it is long enough
+let nameValidator = (reqBody, name) => {
+    console.log(`Validating ${name}...`)
+    // check if the name property exists. If it doesn't stop the validation
+    let exists = reqBody.hasOwnProperty(name)
+    if (!exists) return false
+    // since it exists check how long it is
+    if (reqBody[name].length < 3) return false
+    // it exists and it is long enough. I'm statisfied.
+    return true
+}
+
+// checks if the email exists and it is formatted properly
+let emailValidator = (reqBody) => {
+    console.log(`Validating email...`)
+    // check if the email property exists. If it doesn't stop the validation
+    let exists = reqBody.hasOwnProperty('email')
+    if (!exists) return false
+    // since it exists check if it is formatted properly
+    let emailIsValid = EmailValidator.validate(reqBody.email)
+    if (!emailIsValid) return false
+
+    // it exists and it is formatted properly. I'm statisfied.
+    return true
+}
+
+// Checks only the length of the password 
+let passwordValidator = (reqBody) => {
+    console.log('Validating password...')
+    // check if the password property exists. If it doesn't stop the validation
+    let exists = reqBody.hasOwnProperty('password')
+    if (!exists) return false
+    // since it exists check if it is long enough
+    // TODO: add more password checks here
+    if (reqBody.password.length < 6) return false
+    // It exists, and it is long enough, I'm satisfied.
+    return true
+}
+
+
 
 // - grab email from request body
 // - check if the email exists
@@ -80,38 +162,4 @@ exports.signupStudent = (req, res) => {
 // - create jwt for employer
 // - send token to employer
 exports.signupEmployer = (req, res) => { }
-
-// this controller only works for the student database model
-// exports.studentSignup = (req, res) => {
-
-//  // Validate request
-//   if(!req.body) {
-//     return res.status(400).json({
-//         message: "all fields can not be empty"
-//     });
-// }
-
-// Register student
-// const student = new Student({
-//     email: req.body.email,
-//     firstname: req.body.firstname,
-//     lastname: req.body.lastname,
-//     school: req.body.school,
-//     password: bcrypt.hashSync(req.body.password)
-// });
-
-// // Save student in the database
-// student.save()
-// .then(data => {
-//     res.status(200).json({
-//         message: 'student successfully registered',
-//         data: data
-//     });
-//  })
-//  .catch(err => {
-//     res.status(500).json({
-//         message: err.message || "Some error occurred while registering user."
-//     });
-// });
-// };
 

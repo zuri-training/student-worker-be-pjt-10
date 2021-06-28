@@ -36,7 +36,8 @@ const StudentSchema = new mongoose.Schema(
 
         password: {
             type: String,
-
+            required: true,
+            minLength: 6
         }
     },
     { collection: 'students' })
