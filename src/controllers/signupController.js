@@ -76,13 +76,13 @@ let validator = (reqBody) => {
             status: false
         }
     // validates the firstname
-    if (!nameValidator(reqBody, 'firstname'))
+    if (!this.nameValidator(reqBody, 'firstname'))
         return {
             error: 'firstname must be at least 3 characters long',
             status: false
         }
     // validates the lastname
-    if (!nameValidator(reqBody, 'lastname'))
+    if (!this.nameValidator(reqBody, 'lastname'))
         return {
             error: 'lastname must be at least 3 characters long',
             status: false
@@ -94,7 +94,7 @@ let validator = (reqBody) => {
             status: false
         }
     // validates the school name
-    if (!nameValidator(reqBody, 'school'))
+    if (!this.nameValidator(reqBody, 'school'))
         return {
             error: 'your school must be at least 3 characters long',
             status: false
@@ -114,7 +114,7 @@ let validator = (reqBody) => {
 }
 
 // checks if firstname exists and if it is long enough
-let nameValidator = (reqBody, name) => {
+exports.nameValidator = (reqBody, name) => {
     console.log(`Validating ${name}...`)
     // check if the name property exists. If it doesn't stop the validation
     let exists = reqBody.hasOwnProperty(name)
