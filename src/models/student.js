@@ -14,30 +14,27 @@ const StudentSchema = new mongoose.Schema(
             trim: true
         },
 
-        firstname: {
+        password: {
             type: String,
             required: true,
+            minLength: 6
+        },
+
+        resume: {
+            type: mongoose.SchemaTypes.Mixed,
             minLength: 3,
             trim: true
         },
 
         lastname: {
             type: String,
-            required: true,
             minLength: 3,
             trim: true
         },
 
         school: {
             type: String,
-            required: true,
             trim: true
-        },
-
-        password: {
-            type: String,
-            required: true,
-            minLength: 6
         }
     },
     { collection: 'students' })

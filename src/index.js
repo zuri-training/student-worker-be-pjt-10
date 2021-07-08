@@ -10,6 +10,7 @@ const connectDB = require('./db/mongoose');
 // routes import 
 const signupRoutes = require('./routes/signupRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const resume = require('./routes/resumeRoute')
 
 
 const app = express()
@@ -27,9 +28,10 @@ connectDB() // creates a connection to the database
 // this is what makes separating the routes
 // into different files possible 
 app.use(signupRoutes);
-
 // login routess
 app.use(loginRoutes);
+app.use(resume)
+
 
 // listen and serve the apis :
 const { PORT } = process.env

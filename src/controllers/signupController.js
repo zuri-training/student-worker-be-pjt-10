@@ -16,14 +16,10 @@ const Employer = require("../models/employer")
 exports.welcome = (req, res) => res.send('Welcome to the Student Worker API')
 
 
-// TODO: 
-// - grab email from request body
-// - check if the email exists
-// - create a new student
-// - hash user's password
-// - save password to DB
-// - create jwt for student
-// - send token to student
+/**
+ * signs up the user and 
+ * @returns a token with the user email as payload
+ */
 exports.signupStudent = async (req, res) => {
     // validates whether the incoming request is ok to process
     // if validation fails, it returns a description of error
@@ -46,10 +42,7 @@ exports.signupStudent = async (req, res) => {
     // create a new studuent
     console.log(`Creating the student, ${req.body.firstname}...`)
     let newStudent = await Student.create({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
         email: req.body.email,
-        school: req.body.school,
         password: hash,
     })
         .catch((err) => {
@@ -60,7 +53,7 @@ exports.signupStudent = async (req, res) => {
 
     // create a token with jwt
     console.log('Creating jwt token')
-    let token = jwt.sign({ ...newStudent }, process.env.privateKey) // note the private key
+    let token = jwt.sign(newStudent._doc, process.env.privateKey) // note the private key
 
     // passed the validation. You can continue
     return res.json({ msg: 'Validation successful', token })
@@ -75,28 +68,10 @@ let validator = (reqBody) => {
             error: 'your request body must not be empty',
             status: false
         }
-    // validates the firstname
-    if (!this.nameValidator(reqBody, 'firstname'))
-        return {
-            error: 'firstname must be at least 3 characters long',
-            status: false
-        }
-    // validates the lastname
-    if (!this.nameValidator(reqBody, 'lastname'))
-        return {
-            error: 'lastname must be at least 3 characters long',
-            status: false
-        }
     // validates the email
     if (!emailValidator(reqBody))
         return {
             error: 'the email is not formatted properly',
-            status: false
-        }
-    // validates the school name
-    if (!this.nameValidator(reqBody, 'school'))
-        return {
-            error: 'your school must be at least 3 characters long',
             status: false
         }
     // validates the password
@@ -162,4 +137,14 @@ let passwordValidator = (reqBody) => {
 // - create jwt for employer
 // - send token to employer
 exports.signupEmployer = (req, res) => { }
+
+/**
+ * striclty for learning purposes
+ */
+exports.createStudent = async (student) => {
+    if (!student)
+        throw new Error('Missing student')
+
+    await Student.create(student)
+}
 
