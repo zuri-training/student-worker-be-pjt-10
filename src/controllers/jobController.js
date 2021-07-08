@@ -1,7 +1,7 @@
 const Job = require('../models/job')
 
 
-// app.post('/auth/jobs', fd
+// app.post('/auth/jobs', fdgh
 exports.createNewJob = (req, res) => {
 
     Job.create({
