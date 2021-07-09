@@ -16,24 +16,21 @@ const EmployerSchema = new mongoose.Schema(
 
         firstname: {
             type: String,
-            required: true,
             minLength: 3,
             trim: true
         },
 
         lastname: {
             type: String,
-            required: true,
             minLength: 3,
             trim: true
         },
 
         company: {
             type: String,
-            required: true,
             trim: true
         },
-        password : {
+        password: {
             type: String,
             required: true
         }

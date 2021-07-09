@@ -18,5 +18,7 @@ router.get('/', signupCtrl.welcome)
 // it registers a new student
 router.post('/signupStudent', signupCtrl.signupStudent)
 
+router.post('/signupEmployer', signupCtrl.signupEmployer)
+
 // you have to export the router variable for this to work
 module.exports = router

@@ -1,59 +1,63 @@
 const Employer = require("../models/employer");
 const Student = require("../models/student");
+const { validator } = require('../helper/@validate')
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
+exports.loginStudent = async (req, res) => {
+  console.log('validating the request body')
+  let isValid = validator(req.body)
+  if (!isValid.status)
+    return res.status(400).json({ error: isValid.error })
 
-// handle sign in
-const handleStudentLogin =(req, res) => {
-  // check for request body validation
-    const { email, password } = req.body
-    if (!email || !password) {
-      return res.status(400).json({
-        message: "all fields can not be empty"
-      });
-    }
-
-    Student.findOne({
-      email: email
+  console.log('checking if the user exists')
+  let doc = await Student.findOne({ email: req.body.email })
+    .catch((error) => {
+      return res.status(400).json({ error })
     })
-      .exec((err, student) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-        // compare the password of the req.body and the one in the database
-        const passwordIsValid = bcrypt.compareSync(password, student.password);
-        if (!passwordIsValid) {
-          return res.status(401).send({
-            message: "Invalid Password!"
-          });
-        }
-        if (passwordIsValid) {
-          // get the student profile
-          return res.status(200).send(student)
-        } else {
-          Promise.reject('wrong credentials');
-        }
-      })
-  }
+  if (doc === null)
+    return res.status(400).json({ error: `this email does not exist in our database` })
+  console.log(doc)
 
-  // get jwt authorization token
-  const getAuthTokenId = (req,res) => {
-    const {authorization} = req.headers;
-   return jwt.verify(authorization, 'secret', (err, reply) =>{
-        if(err || !reply) {
-          return res.status(400).json('Unauthorized');
-        }
-        return res.json({id: reply});
-    }
-     )
-  }
+  console.log('comparing the password')
+  let passwordIsCorrect = bcrypt.compareSync(req.body.password, doc.password)
+  if (!passwordIsCorrect)
+    return res.status(400).json({ error: `this email and password does not match our records` })
+
+  console.log('creating jwt')
+  let token = jwt.sign({ ...doc }, req.body.email) // note the private key is the user's email
+
+  // passed the validation. You can continue
+  console.log('login successful')
+  return res.json({ msg: 'Login successful', token })
+}
 
 
+exports.loginEmployer = async (req, res) => {
+  console.log('validating the request body')
+  let isValid = validator(req.body)
+  if (!isValid.status)
+    return res.status(400).json({ error: isValid.error })
 
-exports.studentLoginAuthentication = (req, res) => {
-  const{ authorization} = req.headers;
-    return authorization ? getAuthTokenId(req,res) : handleStudentLogin(req,res)
+  console.log('checking if the user exists')
+  let doc = await Employer.findOne({ email: req.body.email })
+    .catch((error) => {
+      return res.status(400).json({ error })
+    })
+  if (doc === null)
+    return res.status(400).json({ error: `this email does not exist in our database` })
+  console.log(doc)
+
+  console.log('comparing the password')
+  let passwordIsCorrect = bcrypt.compareSync(req.body.password, doc.password)
+  if (!passwordIsCorrect)
+    return res.status(400).json({ error: `this email and password does not match our records` })
+
+  console.log('creating jwt')
+  let token = jwt.sign({ ...doc }, req.body.email) // note the private key is the user's email
+
+  // passed the validation. You can continue
+  console.log('login successful')
+  return res.json({ msg: 'Login successful', token })
 }
