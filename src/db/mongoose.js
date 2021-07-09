@@ -19,7 +19,7 @@ const connectDB = async () => {
             useFindAndModify: false
         })
 
-        console.log('Mongodb connected successfully')
+        console.log('Mongodb connected successfully.')
     } catch (err) {
         console.log('Mongodb failed to connect')
         console.log(err.message)
