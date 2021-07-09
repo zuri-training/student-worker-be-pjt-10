@@ -1,8 +1,9 @@
 # Student Worker
 This is the backend version of the Student-Worker App by PJT-10 from the Zuri Training.   
 This readme explains the endpoints here.   
-Always check if the status code is 200 before performing an operation
-Please test it with postman first.
+ - Always check if the status code is 200 before performing an operation.   
+ - Please test it with postman first.
+ - All accepted data types are String except stated otherwise
 
 ## Base URL
 https://student-worker2.herokuapp.com
