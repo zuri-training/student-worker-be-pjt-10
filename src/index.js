@@ -11,6 +11,7 @@ const connectDB = require('./db/mongoose');
 const signupRoutes = require('./routes/signupRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const resume = require('./routes/resumeRoute')
+const employerProfile = require('./routes/employerProfileRoutes')
 
 
 const app = express()
@@ -31,6 +32,7 @@ app.use(signupRoutes);
 // login routess
 app.use(loginRoutes);
 app.use(resume)
+app.use(employerProfile)
 
 
 // listen and serve the apis :
