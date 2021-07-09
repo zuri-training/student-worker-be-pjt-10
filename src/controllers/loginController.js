@@ -4,6 +4,7 @@ const { validator } = require('../helper/@validate')
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 exports.loginStudent = async (req, res) => {
   console.log('validating the request body')
@@ -26,7 +27,7 @@ exports.loginStudent = async (req, res) => {
     return res.status(400).json({ error: `this email and password does not match our records` })
 
   console.log('creating jwt')
-  let token = jwt.sign({ ...doc }, req.body.email) // note the private key is the user's email
+  let token = jwt.sign({ ...doc }, process.env.privateKey) // note the private key is the user's email
 
   // passed the validation. You can continue
   console.log('login successful')
@@ -55,7 +56,7 @@ exports.loginEmployer = async (req, res) => {
     return res.status(400).json({ error: `this email and password does not match our records` })
 
   console.log('creating jwt')
-  let token = jwt.sign({ ...doc }, req.body.email) // note the private key is the user's email
+  let token = jwt.sign({ ...doc }, process.env.privateKey) // note the private key is the user's email
 
   // passed the validation. You can continue
   console.log('login successful')

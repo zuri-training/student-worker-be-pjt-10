@@ -52,7 +52,7 @@ exports.signupStudent = async (req, res) => {
 
     // create a token with jwt
     console.log('Creating jwt token')
-    let token = jwt.sign(newStudent._doc, req.body.email) // note the private key is the user's email
+    let token = jwt.sign(newStudent._doc, process.env.privateKey) // note the private key is the user's email
     console.log(newStudent._doc)
 
     // passed the validation. You can continue

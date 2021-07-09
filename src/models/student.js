@@ -4,6 +4,7 @@
  */
 
 const mongoose = require('mongoose')
+const ResumeSchema = require('./resume_schema')
 
 const StudentSchema = new mongoose.Schema(
     {
@@ -20,22 +21,53 @@ const StudentSchema = new mongoose.Schema(
             minLength: 6
         },
 
-        resume: {
-            type: mongoose.SchemaTypes.Mixed,
-            minLength: 3,
-            trim: true
+        firstname: {
+            type: String,
         },
-
         lastname: {
             type: String,
-            minLength: 3,
-            trim: true
         },
-
+        countryCode: {
+            type: String,
+            required: true,
+            default: '+234'
+        },
+        mobileNumber: {
+            type: String,
+            required: true,
+            default: '09029880470'
+        },
+        currentState: {
+            type: String,
+            required: true,
+            default: 'Lagos'
+        },
+        currentCity: {
+            type: String,
+            required: true,
+            default: 'Okokomaiko'
+        },
         school: {
             type: String,
-            trim: true
-        }
+        },
+        course: {
+            type: String,
+        },
+        startYear: {
+            type: String,
+        },
+        endYear: {
+            type: String,
+        },
+        skill1: {
+            type: String,
+        },
+        skill2: {
+            type: String,
+        },
+        skill3: {
+            type: String,
+        },
     },
     { collection: 'students' })
 
@@ -44,6 +76,8 @@ StudentSchema.index({ email: 1 }, { unique: true })
 
 // converting the schema to a mongoose model
 const Student = mongoose.model('Student', StudentSchema)
+
+
 
 // exporting it so it can be used elsewhere
 module.exports = Student
