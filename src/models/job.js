@@ -8,53 +8,49 @@ const mongoose = require('mongoose')
 
 const JobSchema = new mongoose.Schema(
     {
-        employerEmail: {
+        email: {
             type: String,
-            required: true,
-            minLength: 5,
-            trim: true
         },
 
         title: {
             type: String,
-            required: true,
-            minLength: 5,
-            trim: true
         },
-
+        companyName: {
+            type: String,
+            default: "Zuri Int'l"
+        },
         location: {
             type: String,
-            required: true,
-            minLength: 3,
-            trim: true
+            default: 'Lagos',
         },
 
-       jobType: {
+        jobType: {
             type: String,
-            required: true,
             minLength: 3,
-            enum: ["unknown", "remote", "on-site"],
-            default: "unknown"
+            default: "remote"
         },
 
         salary: {
             type: String,
-            required: true
+            default: '50,000'
         },
 
         hrsPerWeek: {
             type: String,
-            required: true
+            default: 24
         },
-
-        duration: {
+        dateCreated: {
             type: String,
-            required: true
         },
 
-        filled: {
-            type: Boolean,
-            required: true,
+        aboutCompany: {
+            type: String,
+        },
+        studentResponsibility: {
+            type: String,
+        },
+        eligibility: {
+            type: String
         }
     },
     { collection: 'jobs' }

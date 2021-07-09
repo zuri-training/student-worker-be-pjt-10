@@ -26,14 +26,14 @@ https://student-worker2.herokuapp.com
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
- - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
+ - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
-## Signup Employer
+## Login Employer
  - endpoint: baseUrl/loginEmployer
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
- - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
+ - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
 ## Create Resume
  - endpoint: baseUrl/createResume
@@ -55,7 +55,7 @@ https://student-worker2.herokuapp.com
   skill3  
    }
  - error format: {error: 'this is how the errors will look like'}
- - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
+ - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
 ## Create Employer Profile
 - endpoint: baseUrl/employerProfile
@@ -72,7 +72,30 @@ https://student-worker2.herokuapp.com
   address
    }
  - error format: {error: 'this is how the errors will look like'}
- - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
+ - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 ## Seacrh for Jobs
+ - endpoint: baseUrl/loginEmployer
+ - method: GET
+ - body: {} // you don't need a request body
+ - query parameters: {location, jobType} e.g baseUrl/loginEmployer?location=lagos&jobType=remote
+ - error format: {error: 'this is how the errors will look like'}
+ - success format: {msg: 'successful'}
 
 ## Post a Job (for employer)
+ - endpoint: baseUrl/postJob
+ - method: POST
+ - body: {email, // employer's email
+        title,   
+        companyName,    
+        location,     
+        jobType,    
+        salary,    
+        hrsPerWee,   
+        dateCreated,   
+        aboutCompan,   
+        studentResponsibility,   
+        eligibility,    
+        token    
+        }
+- error format: {error: 'this is how the errors will look like'}
+ - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}

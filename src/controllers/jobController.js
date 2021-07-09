@@ -1,18 +1,24 @@
 const Job = require('../models/job')
+const _ = require('lodash')
+const jwt = require('jsonwebtoken')
 
 
 // app.post('/auth/jobs', fdgh
-exports.createNewJob = (req, res) => {
+exports.postJob = async (req, res) => {
+    if (_.isEmpty(req.body))
+        return res.status(400).json({ error: "your request body is empty" })
+    if (!req.body.hasOwnProperty('token'))
+        return res.status(400).json({ error: "you must add the token, or else login again" })
 
-    Job.create({
-        ...req.body
-    }, (err, newJob) => {
-        if (err) {
-            return res.status(500).json({ message: err })
-        } else {
-            return res.status(200).json({ message: "new job created", newJob })
-        }
-    })
+    let data = jwt.verify(req.body.token, process.env.privateKey)
+    console.log('This is what is in data\n', data)
+    let doc = await Job.create({ ...req.body })
+        .catch((error) => {
+            console.log("there's been an error o")
+            return res.status(400).json({ error: 'Error creating the Job', msg: error })
+        })
+    console.log(doc)
+    res.json({ msg: "successful", doc })
 }
 
 exports.fetchJobs = (req, res) => {
