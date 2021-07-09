@@ -74,7 +74,7 @@ https://student-worker2.herokuapp.com
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 ## Seacrh for Jobs
- - endpoint: baseUrl/loginEmployer
+ - endpoint: baseUrl/search
  - method: GET
  - body: {} // you don't need a request body
  - query parameters: {location, jobType} e.g baseUrl/loginEmployer?location=lagos&jobType=remote
