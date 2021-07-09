@@ -33,3 +33,11 @@ https://student-worker2.herokuapp.com
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
+
+## Create Resume
+
+## Create Employer Profile
+
+## Seacrh for Jobs
+
+## Post a Job (for employer)
