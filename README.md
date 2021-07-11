@@ -88,7 +88,7 @@ https://student-worker2.herokuapp.com
         title,   
         companyName,    
         location,     
-        jobType,    
+        jobType, // remote or on-site   
         salary,    
         hrsPerWeek,   
         dateCreated,   
