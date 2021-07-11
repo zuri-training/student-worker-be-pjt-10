@@ -8,35 +8,35 @@ Please test it with postman first.
 https://student-worker2.herokuapp.com
 
 ## Signup Student
- - endpoint: baseUrl/signupStudent
+ - endpoint: https://student-worker2.herokuapp.com/signupStudent
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
 
 ## Signup Employer
- - endpoint: baseUrl/signupEmployer
+ - endpoint: https://student-worker2.herokuapp.com/signupEmployer
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'signup successfull', token: 'save this token and always add it in your subsequent request'}
 
 ## Login Student
- - endpoint: baseUrl/loginStudent
+ - endpoint: https://student-worker2.herokuapp.com/loginStudent
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
 ## Login Employer
- - endpoint: baseUrl/loginEmployer
+ - endpoint: https://student-worker2.herokuapp.com/loginEmployer
  - method: POST
  - body: {email, password} // they are both required
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
 ## Create Resume
- - endpoint: baseUrl/createResume
+ - endpoint: https://student-worker2.herokuapp.com/createResume
  - method: POST
  - body:  
    {token,    
@@ -58,7 +58,7 @@ https://student-worker2.herokuapp.com
  - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 
 ## Create Employer Profile
-- endpoint: baseUrl/employerProfile
+- endpoint: https://student-worker2.herokuapp.com/employerProfile
  - method: POST
  - body:  
    {token,    
@@ -74,7 +74,7 @@ https://student-worker2.herokuapp.com
  - error format: {error: 'this is how the errors will look like'}
  - success format: {msg: 'successful', token: 'save this token and always add it in your subsequent request'}
 ## Seacrh for Jobs
- - endpoint: baseUrl/search
+ - endpoint: https://student-worker2.herokuapp.com/search
  - method: GET
  - body: {} // you don't need a request body
  - query parameters: {location, jobType} e.g baseUrl/loginEmployer?location=lagos&jobType=remote
@@ -82,7 +82,7 @@ https://student-worker2.herokuapp.com
  - success format: {msg: 'successful'}
 
 ## Post a Job (for employer)
- - endpoint: baseUrl/postJob
+ - endpoint: https://student-worker2.herokuapp.com/postJob
  - method: POST
  - body: {email, // employer's email
         title,   
