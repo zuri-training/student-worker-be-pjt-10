@@ -90,9 +90,9 @@ https://student-worker2.herokuapp.com
         location,     
         jobType,    
         salary,    
-        hrsPerWee,   
+        hrsPerWeek,   
         dateCreated,   
-        aboutCompan,   
+        aboutCompany,   
         studentResponsibility,   
         eligibility,    
         token    
