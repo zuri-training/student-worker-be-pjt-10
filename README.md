@@ -84,11 +84,12 @@ https://student-worker2.herokuapp.com
 ## Post a Job (for employer)
  - endpoint: https://student-worker2.herokuapp.com/postJob
  - method: POST
- - body: {email, // employer's email
+ - body: {
+        email, // employer's email.         
         title,   
         companyName,    
         location,     
-        jobType, // remote or on-site   
+        jobType, // remote or on-site     
         salary,    
         hrsPerWeek,   
         dateCreated,   
